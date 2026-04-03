@@ -132,10 +132,17 @@ STORAGES = {
 }
 
 MEDIA_URL = '/media/'
-if os.environ.get('VERCEL') == '1':
+# On Vercel, use /tmp which is the only writable directory
+if os.environ.get('VERCEL') == '1' or not os.access(BASE_DIR, os.W_OK):
     MEDIA_ROOT = '/tmp/media'
 else:
     MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# Ensure the media directory exists
+try:
+    os.makedirs(MEDIA_ROOT, exist_ok=True)
+except Exception:
+    pass  # If /tmp/media fails, uploads will fail gracefully
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
