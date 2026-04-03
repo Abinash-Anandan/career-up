@@ -8,9 +8,11 @@ django.setup()
 from Course.models import Course_Details
 
 new_courses = [
-    {"name": "Python Full Stack", "fee": 45000, "duration": 180},
-    {"name": "Java Full Stack", "fee": 50000, "duration": 210},
-    {"name": "MERN Full Stack", "fee": 48000, "duration": 150},
+    {"name": "Python Full Stack", "fee": 14999, "duration": 180},
+    {"name": "Java Specialized", "fee": 12499, "duration": 210},
+    {"name": "MERN Stack Hub", "fee": 11999, "duration": 150},
+    {"name": "Deep Learning & AI", "fee": 15999, "duration": 240},
+    {"name": "Data Analytics Elite", "fee": 9999, "duration": 120},
 ]
 
 for c in new_courses:

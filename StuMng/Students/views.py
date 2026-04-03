@@ -11,7 +11,14 @@ def student_home(request):
 
 @login_required
 def personal_info(request):
-    student = Student_Details.objects.get(user=request.user)
+    student, created = Student_Details.objects.get_or_create(user=request.user)
+    if created:
+        # Give some default values if it was just created
+        student.first_name = request.user.username.capitalize()
+        student.email = request.user.email or f"{request.user.username}@careerup.com"
+        student.course_fee = 0.00
+        student.enrollment_date = "2026-04-03" # default date
+        student.save()
     return render(request, 'personal_info.html', {'student': student})
 
 
