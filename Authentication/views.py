@@ -101,8 +101,7 @@ def signup_view(request):
                 else:
                     selected_course = Course_Details.objects.first()
 
-                # Create student record — NO file uploads (Vercel filesystem is unreliable)
-                # Profile picture / resume can be added from the profile edit page
+                # Create student record with Cloudinary cloud storage
                 Student_Details.objects.create(
                     user=user,
                     first_name=request.POST.get('first_name', ''),
@@ -113,8 +112,8 @@ def signup_view(request):
                     course_fee=selected_course.course_fee,
                     paid_amount=paid,
                     remaining_amount=selected_course.course_fee - paid,
-                    profile_picture=None,
-                    resume=None,
+                    profile_picture=request.FILES.get('profile_picture'),
+                    resume=request.FILES.get('resume'),
                 )
 
             return redirect('/')

@@ -1,0 +1,265 @@
+/* 
+    Premium Signup Styles - Elite DARK High Contrast
+*/
+
+:root {
+    --primary: #38bdf8; /* Bright Sky Blue */
+    --secondary: #818cf8; /* Bright Indigo */
+    --text-high: #ffffff;
+    --text-dim: #94a3b8;
+    --bg-deep: #020617; /* Stark Navy Black */
+    --card-surface: #0f172a; /* Slate Card */
+}
+
+body {
+    background-color: var(--bg-deep);
+    background-image: 
+        radial-gradient(circle at 10% 10%, rgba(56, 189, 248, 0.05) 0%, transparent 40%),
+        radial-gradient(circle at 90% 90%, rgba(129, 140, 248, 0.05) 0%, transparent 40%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    margin: 0;
+    overflow-x: hidden;
+    overflow-y: auto; 
+    font-family: 'Inter', sans-serif;
+    color: var(--text-high);
+    padding: 2rem 0;
+}
+
+/* Background Particle System Container */
+#bg-particles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* Scanning Grid Effect */
+body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+    background-size: 50px 50px;
+    z-index: -2;
+    mask-image: radial-gradient(circle at center, black, transparent 80%);
+}
+
+/* Background Blobs */
+.bg-blob {
+    position: fixed;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    filter: blur(120px);
+    z-index: -1;
+    opacity: 0.35;
+    animation: blob-drift 30s infinite alternate ease-in-out;
+}
+
+.blob-primary {
+    background: radial-gradient(circle, var(--primary) 0%, transparent 70%);
+    top: -200px;
+    left: -200px;
+}
+
+.blob-secondary {
+    background: radial-gradient(circle, var(--secondary) 0%, transparent 70%);
+    bottom: -200px;
+    right: -200px;
+}
+
+@keyframes blob-drift {
+    0% { transform: translate(0, 0) scale(1) rotate(0deg); }
+    100% { transform: translate(100px, 150px) scale(1.1) rotate(60deg); }
+}
+
+/* Signup Card */
+.signup-card {
+    width: 95%;
+    max-width: 800px;
+    background: var(--card-surface);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 32px;
+    padding: 3rem;
+    box-shadow: 0 50px 100px rgba(0, 0, 0, 0.6), 0 0 40px rgba(56, 189, 248, 0.05);
+    position: relative;
+    z-index: 10;
+    backdrop-filter: blur(20px);
+}
+
+.brand-title {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 800;
+    font-size: 2.75rem;
+    color: #ffffff !important;
+    letter-spacing: -2px;
+    text-shadow: 0 0 20px rgba(56, 189, 248, 0.4);
+    margin-bottom: 0.5rem;
+}
+
+.brand-tagline {
+    color: var(--text-dim);
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin-bottom: 3rem;
+}
+
+/* Form Grid */
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+
+.full-width {
+    grid-column: span 2;
+}
+
+.section-head {
+    grid-column: span 2;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 800;
+    font-size: 1rem;
+    color: var(--primary);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-top: 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+/* Form Styling */
+.form-group {
+    margin-bottom: 0.5rem;
+}
+
+.form-label {
+    display: block;
+    color: #ffffff !important;
+    font-weight: 800;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 0.75rem;
+}
+
+.input-wrapper {
+    position: relative;
+}
+
+.input-icon {
+    position: absolute;
+    left: 1.25rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--primary);
+    font-size: 1.1rem;
+}
+
+.form-control {
+    width: 100%;
+    background: rgba(15, 23, 42, 0.8) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    border-radius: 18px;
+    padding: 1.05rem 1.1rem 1.05rem 3.5rem;
+    color: #ffffff !important;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+
+.form-control::placeholder {
+    color: #64748b;
+}
+
+.form-control:focus {
+    background: #0f172a !important;
+    border-color: var(--primary) !important;
+    box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.25) !important;
+    outline: none;
+}
+
+select.form-control {
+    cursor: pointer;
+    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%2338bdf8%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E") !important;
+    background-repeat: no-repeat !important;
+    background-position: right 1.25rem center !important;
+    background-size: 0.65rem auto !important;
+    appearance: none;
+}
+
+/* Button */
+.btn-signup {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: #020617 !important;
+    font-weight: 800;
+    padding: 1.25rem;
+    border-radius: 20px;
+    width: 100%;
+    border: none;
+    font-size: 1.15rem;
+    cursor: pointer;
+    box-shadow: 0 15px 35px rgba(56, 189, 248, 0.3);
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    margin-top: 2.5rem;
+    grid-column: span 2;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.btn-signup:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 25px 50px rgba(56, 189, 248, 0.5);
+    filter: brightness(1.1);
+}
+
+/* Footer Link */
+.login-link {
+    text-align: center;
+    margin-top: 2.5rem;
+    color: var(--text-dim);
+    font-size: 1.05rem;
+}
+
+.login-link a {
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 800;
+}
+
+.login-link a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .signup-card {
+        padding: 2.5rem 1.5rem;
+        margin: 1rem;
+        border-radius: 24px;
+    }
+    .brand-title {
+        font-size: 2.25rem;
+    }
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+    .full-width, .btn-signup, .section-head {
+        grid-column: span 1;
+    }
+}
