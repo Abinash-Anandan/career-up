@@ -56,60 +56,60 @@ def social_login_redirect(request, provider):
 
 
 def signup_view(request):
-    courses = Course_Details.objects.all()
+    try:
+        courses = Course_Details.objects.all()
+    except Exception as e:
+        return render(request, 'signup.html', {
+            'error': f'Database connection failed: {str(e)}',
+            'courses': []
+        })
 
     if request.method == "POST":
-    
-        if User_Details.objects.filter(username=request.POST['username']).exists():
-            return render(request, 'signup.html', {'error': 'Username already exists.', 'courses': courses})
         try:
-            with transaction.atomic():              #commit or rollback
+            if User_Details.objects.filter(username=request.POST.get('username', '')).exists():
+                return render(request, 'signup.html', {'error': 'Username already exists.', 'courses': courses})
 
-                # USER TABLE (saved only if everything passes)
-                    user = User_Details.objects.create_user(
-                    username=request.POST['username'],
-                    password=request.POST['password']
-                        )
+            with transaction.atomic():
+                user = User_Details.objects.create_user(
+                    username=request.POST.get('username', ''),
+                    password=request.POST.get('password', '')
+                )
+                user.Mobiele_Number = request.POST.get('mobile')
+                user.Age = request.POST.get('age') or None
+                user.Address = request.POST.get('address')
+                user.State = request.POST.get('state')
+                user.Country = request.POST.get('country')
+                user.save()
 
-                    user.Mobiele_Number = request.POST.get('mobile')
-                    user.Age = request.POST.get('age') or None
-                    user.Address = request.POST.get('address')
-                    user.State = request.POST.get('state')
-                    user.Country = request.POST.get('country')
-                    user.save()                                
-                # STUDENT TABLE
-                    course_val = request.POST.get('course')
-                    if course_val:
-                        selected_course = Course_Details.objects.get(id=course_val)
-                    else:
-                        selected_course = Course_Details.objects.first()
-                    print(course_val, type(course_val))
-                    print(selected_course.id,type(selected_course.id))
-                    Student_Details.objects.create(
-                        user=user,
-                        first_name=request.POST.get('first_name', ''),
-                        last_name=request.POST.get('last_name', ''),
-                        email=request.POST.get('email', ''),
-                        enrollment_date=request.POST.get('enrollment_date') or timezone.now().date(),
-                        course_id=selected_course.id,
-                        course_fee=selected_course.course_fee,
-                        paid_amount=request.POST.get('Paid_Fees', 0) or 0,
-                        remaining_amount=selected_course.course_fee - Decimal(request.POST.get('Paid_Fees', 0) or 0),
-                        profile_picture=request.FILES.get('profile_picture'),
-                        resume=request.FILES.get('resume')  
+                course_val = request.POST.get('course')
+                if course_val:
+                    selected_course = Course_Details.objects.get(id=course_val)
+                else:
+                    selected_course = Course_Details.objects.first()
 
-                    )
+                Student_Details.objects.create(
+                    user=user,
+                    first_name=request.POST.get('first_name', ''),
+                    last_name=request.POST.get('last_name', ''),
+                    email=request.POST.get('email', ''),
+                    enrollment_date=request.POST.get('enrollment_date') or timezone.now().date(),
+                    course_id=selected_course.id,
+                    course_fee=selected_course.course_fee,
+                    paid_amount=request.POST.get('Paid_Fees', 0) or 0,
+                    remaining_amount=selected_course.course_fee - Decimal(str(request.POST.get('Paid_Fees', 0) or 0)),
+                    profile_picture=request.FILES.get('profile_picture'),
+                    resume=request.FILES.get('resume'),
+                )
 
-        # LOGIN ONLY AFTER SUCCESS
             return redirect('/')
 
         except Exception as e:
-            print("Error occurred during signup.", str(e))
-            
+            import traceback
+            err_detail = traceback.format_exc()
+            print("Signup error:", err_detail)
             return render(request, 'signup.html', {
-                'error': f'Something went wrong. Please try again. Error details: {str(e)}',
+                'error': f'Registration failed: {str(e)}',
                 'courses': courses
             })
-
 
     return render(request, 'signup.html', {'courses': courses})
