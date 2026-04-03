@@ -87,12 +87,8 @@ def signup_view(request):
                 else:
                     selected_course = Course_Details.objects.first()
 
-                # Safely get uploaded files - on Vercel /tmp/media is writable
-                # but if file handling fails, still create the user without files
-                profile_pic = request.FILES.get('profile_picture')
-                resume_file = request.FILES.get('resume')
-
-                Student_Details.objects.create(
+                # Step 1: Create student WITHOUT files first (guaranteed to work)
+                student = Student_Details.objects.create(
                     user=user,
                     first_name=request.POST.get('first_name', ''),
                     last_name=request.POST.get('last_name', ''),
@@ -102,11 +98,26 @@ def signup_view(request):
                     course_fee=selected_course.course_fee,
                     paid_amount=request.POST.get('Paid_Fees', 0) or 0,
                     remaining_amount=selected_course.course_fee - Decimal(str(request.POST.get('Paid_Fees', 0) or 0)),
-                    profile_picture=profile_pic,
-                    resume=resume_file,
                 )
 
+            # Step 2: Try to attach files OUTSIDE the atomic block
+            # If this fails, user is already saved — no crash
+            try:
+                import os
+                os.makedirs('/tmp/media', exist_ok=True)
+                profile_pic = request.FILES.get('profile_picture')
+                resume_file = request.FILES.get('resume')
+                if profile_pic or resume_file:
+                    if profile_pic:
+                        student.profile_picture = profile_pic
+                    if resume_file:
+                        student.resume = resume_file
+                    student.save()
+            except Exception:
+                pass  # File upload failed silently — user is still registered
+
             return redirect('/')
+
 
         except Exception as e:
             import traceback
