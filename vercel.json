@@ -13,6 +13,7 @@
       "dest": "MyProject/wsgi.py"
     }
   ],
+  "buildCommand": null,
   "env": {
     "DJANGO_SETTINGS_MODULE": "MyProject.settings",
     "PYTHONPATH": ".",
