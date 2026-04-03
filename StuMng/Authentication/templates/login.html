@@ -1,0 +1,255 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elite Access | Career Up</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Core Styles with Cache-Busting -->
+    <link rel="stylesheet" href="{% static 'css/login.css' %}?v=5.0">
+    <style>
+        /* CRITICAL VISIBILITY OVERRIDES */
+        .brand-title { color: #ffffff !important; text-shadow: 0 0 20px rgba(56, 189, 248, 0.4) !important; font-weight: 800 !important; }
+        .btn-login { background: #38bdf8 !important; color: #020617 !important; font-weight: 900 !important; border: none !important; box-shadow: 0 10px 20px rgba(56, 189, 248, 0.3) !important; text-transform: uppercase !important; }
+        .form-label { color: #ffffff !important; font-weight: 800 !important; text-transform: uppercase !important; font-size: 0.75rem !important; }
+        .form-control { 
+            color: #ffffff !important; 
+            border: 1px solid rgba(255, 255, 255, 0.4) !important; 
+            background: rgba(15, 23, 42, 0.9) !important;
+        }
+        .form-control::placeholder { color: #94a3b8 !important; opacity: 1 !important; }
+        .security-badge { border: 1px solid #38bdf8 !important; color: #38bdf8 !important; background: rgba(56, 189, 248, 0.1) !important; }
+
+        .fade-in-up {
+            animation: fadeInUp 0.8s ease-out forwards;
+            opacity: 0;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .floating-icon {
+            position: absolute;
+            background: white;
+            color: #38bdf8;
+            width: 45px;
+            height: 45px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+            font-size: 1.2rem;
+            z-index: 5;
+            animation: float 6s infinite ease-in-out;
+        }
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(-10px, -20px); }
+        }
+    </style>
+</head>
+
+<body class="premium-theme">
+    <!-- High-Performance Particle Background -->
+    <canvas id="bg-particles"></canvas>
+
+    <!-- Premium Ambient Accents -->
+    <div class="bg-blob blob-primary"></div>
+    <div class="bg-blob blob-secondary"></div>
+
+    <!-- Decorative Floating Elements -->
+    <div class="floating-icon" style="top: 15%; left: 10%; animation-delay: 0s;"><i class="fa-solid fa-graduation-cap"></i></div>
+    <div class="floating-icon" style="top: 25%; right: 15%; animation-delay: -2s;"><i class="fa-solid fa-laptop-code"></i></div>
+    <div class="floating-icon" style="bottom: 20%; left: 18%; animation-delay: -4s;"><i class="fa-solid fa-award"></i></div>
+    
+    <!-- Premium Loading Overlay -->
+    <div id="auth-overlay" class="auth-overlay" style="display: none;">
+        <div class="overlay-content">
+            <div class="premium-loader"></div>
+            <h2 class="auth-status">Authenticating...</h2>
+            <p class="auth-subtext">Establishing secure connection to <span id="provider-name">Digital Identity</span></p>
+        </div>
+    </div>
+
+    <div class="login-card fade-in-up">
+        
+        <div class="brand-section">
+            <div class="security-badge"><i class="fa-solid fa-shield-check"></i> Enterprise Secure</div>
+            <h1 class="brand-title">Career Up</h1>
+            <p class="brand-tagline">Access your specialized professional hub.</p>
+        </div>
+
+        <!-- Social Proofing Icons -->
+        <div class="social-login-grid">
+            <a href="javascript:void(0)" onclick="handleSocialLogin('google')" class="btn-social">
+                <i class="fa-brands fa-google text-danger"></i> Google
+            </a>
+            <a href="javascript:void(0)" onclick="handleSocialLogin('linkedin')" class="btn-social">
+                <i class="fa-brands fa-linkedin text-primary"></i> LinkedIn
+            </a>
+        </div>
+
+        <div class="divider">
+            <span style="font-size: 0.75rem; font-weight: 800; text-transform: uppercase; color: #94a3b8;">OR SECURE SIGN IN</span>
+        </div>
+
+        <form method="post" id="loginForm">
+            {% csrf_token %}
+            
+            {% if message %}
+                <div class="error-msg fade-in">
+                    <i class="fa-solid fa-circle-exclamation me-2"></i> {{ message }}
+                </div>
+            {% endif %}
+
+            <div class="form-group">
+                <label class="form-label">Professional ID</label>
+                <div class="input-wrapper">
+                    <i class="fa-solid fa-user-shield input-icon"></i>
+                    <input type="text" name="username" class="form-control" placeholder="Username or Email" required autocomplete="username">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Secure Access Key</label>
+                <div class="input-wrapper">
+                    <i class="fa-solid fa-key input-icon"></i>
+                    <input type="password" name="password" class="form-control" placeholder="••••••••••••" required autocomplete="current-password">
+                </div>
+            </div>
+
+            <button type="submit" class="btn-login shadow-strong">
+                Sign In to Platform <i class="fa-solid fa-arrow-right-to-bracket ms-2"></i>
+            </button>
+        </form>
+
+        <div class="footer-links">
+            Don't have an elite account yet? 
+            <a href="{% url 'SignupPage' %}">Create Identity</a>
+        </div>
+    </div>
+
+    <!-- GSAP for Smooth Entrance -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            VanillaTilt.init(document.querySelector(".login-card"), {
+                max: 8,
+                speed: 400,
+                glare: true,
+                "max-glare": 0.1,
+            });
+
+            gsap.from(".login-card", { 
+                y: 60, 
+                opacity: 0, 
+                duration: 1.2, 
+                ease: "expo.out",
+                delay: 0.2
+            });
+            
+            gsap.from(".floating-icon", {
+                scale: 0,
+                opacity: 0,
+                stagger: 0.2,
+                duration: 1,
+                ease: "back.out(1.7)",
+                delay: 0.8
+            });
+
+            gsap.from(".form-group", {
+                x: -30,
+                opacity: 0,
+                stagger: 0.15,
+                duration: 0.8,
+                ease: "power2.out",
+                delay: 0.6
+            });
+        });
+
+        function handleSocialLogin(provider) {
+            const overlay = document.getElementById('auth-overlay');
+            const providerName = document.getElementById('provider-name');
+            
+            providerName.innerText = provider.charAt(0).toUpperCase() + provider.slice(1);
+            overlay.style.display = 'flex';
+            
+            gsap.fromTo(overlay, { opacity: 0 }, { opacity: 1, duration: 0.5 });
+            gsap.from(".overlay-content", { scale: 0.8, opacity: 0, duration: 0.5, ease: "back.out(1.7)" });
+
+            // Simulate server-side delay then redirect
+            setTimeout(() => {
+                window.location.href = `/social-login/${provider}/`;
+            }, 2000);
+        }
+        // Particle System Script
+        const canvas = document.getElementById('bg-particles');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        window.addEventListener('resize', resize);
+        resize();
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.vx = (Math.random() - 0.5) * 0.5;
+                this.vy = (Math.random() - 0.5) * 0.5;
+                this.size = Math.random() * 2;
+                this.alpha = Math.random() * 0.5;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) {
+                    this.reset();
+                }
+            }
+
+            draw() {
+                ctx.fillStyle = `rgba(56, 189, 248, ${this.alpha})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        for (let i = 0; i < 150; i++) {
+            particles.push(new Particle());
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+    </script>
+</body>
+</html>

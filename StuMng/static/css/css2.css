@@ -1,0 +1,112 @@
+/* 
+    Elite Course Catalog - Compact Edition
+*/
+
+.course-grid-container {
+    padding-top: 4rem;
+    padding-bottom: 6rem;
+    max-width: 1150px;
+    margin: 0 auto;
+}
+
+.course-premium-card {
+    background: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    border-radius: 36px;
+    padding: 2.25rem;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 40px 100px rgba(0, 0, 0, 0.04);
+    transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.course-premium-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    border-color: var(--primary);
+    box-shadow: 0 50px 120px rgba(14, 165, 233, 0.1);
+}
+
+.course-icon-box {
+    width: 60px;
+    height: 60px;
+    background: #f8fafc;
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.75rem;
+    color: var(--primary);
+    margin-bottom: 1.5rem;
+    transition: all 0.4s ease;
+}
+
+.course-premium-card:hover .course-icon-box {
+    background: var(--primary);
+    color: white;
+    transform: rotate(10deg);
+}
+
+.course-name-title {
+    font-family: 'Outfit';
+    font-weight: 800;
+    font-size: 1.45rem;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.5px;
+}
+
+.course-badge-premium {
+    background: rgba(14, 165, 233, 0.08);
+    color: var(--primary);
+    padding: 0.4rem 1rem;
+    border-radius: 100px;
+    font-size: 0.7rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    display: inline-block;
+    margin-bottom: 1.5rem;
+}
+
+.course-info-list {
+    margin-bottom: 2rem;
+}
+
+.course-detail-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.course-detail-row i {
+    width: 18px;
+    color: var(--primary);
+}
+
+.course-price-wrap {
+    margin-top: auto;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.03);
+}
+
+.prof-header-accent {
+    background: #f1f5f9;
+    padding: 0.5rem 1.25rem;
+    border-radius: 100px;
+    color: var(--primary);
+    font-weight: 700;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}

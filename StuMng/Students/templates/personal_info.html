@@ -1,0 +1,138 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/personal.css' %}">
+
+<div class="container profile-container">
+    <div class="row justify-content-center">
+        <div class="col-lg-11">
+            <div class="profile-card-premium fade-in-up">
+                
+                <div class="row">
+                    <!-- Profile Dashboard Column -->
+                    <div class="col-lg-5 text-center px-lg-5 mb-5 mb-lg-0">
+                        <div class="profile-image-wrapper">
+                            {% if student.profile_picture %}
+                                <img src="{{ student.profile_picture.url }}" class="premium-profile-img">
+                            {% else %}
+                                <img src="https://ui-avatars.com/api/?name={{ student.first_name }}+{{ student.last_name }}&background=0ea5e9&color=fff&size=512" class="premium-profile-img">
+                            {% endif %}
+                        </div>
+                        <h2 class="premium-title-glow-deep mb-2" style="font-size: 2.25rem;">{{ student.first_name }} {{ student.last_name }}</h2>
+                        <div class="mb-5">
+                            <span class="status-badge status-paid">Active Platform Member</span>
+                        </div>
+                        
+                        <div class="d-grid gap-3">
+                            <a href="{% url 'logout' %}" class="btn btn-outline-nav py-3 rounded-pill text-danger">
+                                <i class="fa-solid fa-power-off me-2"></i> Terminate Session
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Platform Analytics Column -->
+                    <div class="col-lg-7 px-lg-5 border-start border-light">
+                        <div class="d-flex justify-content-between align-items-center mb-5">
+                            <h3 class="mb-0 fw-bold" style="letter-spacing: -0.5px;">Academic Identity</h3>
+                            <div class="text-primary fw-bold small">v4.0.2 SECURE</div>
+                        </div>
+                        
+                        <div class="row g-4">
+                            <!-- Email -->
+                            <div class="col-md-12">
+                                <div class="info-item">
+                                    <i class="fa-solid fa-envelope-open-text"></i>
+                                    <div>
+                                        <span class="info-label">Communication Email</span>
+                                        <div class="info-value">{{ student.email }}</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Mobile -->
+                            <div class="col-md-6">
+                                <div class="info-item">
+                                    <i class="fa-solid fa-mobile-screen-button"></i>
+                                    <div>
+                                        <span class="info-label">Verification Line</span>
+                                        <div class="info-value">{% if student.user.Mobiele_Number %}{{ student.user.Mobiele_Number }}{% else %}Not Linked{% endif %}</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {% if "guest_" not in request.user.username %}
+                            <!-- Age -->
+                            <div class="col-md-6">
+                                <div class="info-item">
+                                    <i class="fa-solid fa-calendar-check"></i>
+                                    <div>
+                                        <span class="info-label">Student Age</span>
+                                        <div class="info-value">{% if student.user.Age %}{{ student.user.Age }} Years{% else %}Not Provided{% endif %}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+
+                            {% if "guest_" not in request.user.username %}
+                            <!-- Enrolled Course -->
+                            <div class="col-md-12">
+                                <div class="info-item" style="border-left: 4px solid var(--primary);">
+                                    <i class="fa-solid fa-graduation-cap"></i>
+                                    <div>
+                                        <span class="info-label">Active Enrollment</span>
+                                        <div class="info-value">{{ student.course.course_name }} Specialized Path</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="info-item">
+                                    <i class="fa-solid fa-receipt"></i>
+                                    <div>
+                                        <span class="info-label">Path Valuation</span>
+                                        <div class="info-value">₹{{ student.course.course_fee }}</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="info-item">
+                                    <i class="fa-solid fa-circle-check" style="color: #22c55e;"></i>
+                                    <div>
+                                        <span class="info-label">Secured Payment</span>
+                                        <div class="info-value text-success">₹{{ student.paid_amount }}</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Balance Status -->
+                            <div class="col-md-12">
+                                <div class="info-item justify-content-between">
+                                    <div class="d-flex align-items-center gap-4">
+                                        <i class="fa-solid fa-wallet" style="color: #ef4444;"></i>
+                                        <div>
+                                            <span class="info-label">Outstanding Liability</span>
+                                            <div class="info-value" style="font-size: 1.5rem; color: #ef4444;">₹{{ student.remaining_amount }}</div>
+                                        </div>
+                                    </div>
+                                    {% if student.remaining_amount > 0 %}
+                                        <span class="status-badge status-remaining">Unpaid Balance</span>
+                                    {% else %}
+                                        <span class="status-badge status-paid">Account Settled</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block footer %}
+{% endblock %}

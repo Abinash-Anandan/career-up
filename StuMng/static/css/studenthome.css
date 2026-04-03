@@ -1,0 +1,370 @@
+/* 
+    Elite Student Home Styles - Premium Light Theme
+*/
+
+.hero-wrapper {
+    position: relative;
+    padding: 120px 0;
+    margin-top: 1rem;
+    border-radius: 48px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.2) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    overflow: hidden;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.03);
+}
+
+.hero-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(14, 165, 233, 0.05) 0%, transparent 70%);
+    z-index: 0;
+}
+
+.hero-title {
+    font-family: var(--font-heading);
+    font-weight: 800;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+    background: linear-gradient(135deg, var(--text-primary) 30%, var(--primary) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.hero-subtitle {
+    color: var(--text-secondary);
+    font-size: 1.25rem;
+    margin-bottom: 2.5rem;
+    max-width: 550px;
+    line-height: 1.7;
+}
+
+.premium-chip {
+    background: rgba(14, 165, 233, 0.08);
+    color: var(--primary);
+    border: 1px solid rgba(14, 165, 233, 0.1);
+    padding: 0.6rem 1.2rem;
+    font-size: 0.8rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+.premium-hr {
+    border: 0;
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(0, 0, 0, 0.05), transparent);
+    margin: 5rem 0;
+}
+
+/* Attractive Marquee - Light Theme */
+.marquee-section {
+    padding: 6rem 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.section-label {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 5px;
+    color: var(--primary);
+    font-weight: 800;
+    margin-bottom: 3.5rem;
+    opacity: 0.7;
+    text-align: center;
+}
+
+.premium-marquee {
+    width: 100%;
+    margin: 0 auto;
+    mask-image: linear-gradient(to right, transparent, black 20%, black 80%, transparent);
+}
+
+.marquee-track {
+    display: flex;
+    gap: 3.5rem;
+    width: max-content;
+    animation: marquee-infinite 35s linear infinite;
+    padding: 1.5rem 0;
+}
+
+.marquee-item {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    padding: 1.25rem 2.5rem;
+    background: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    font-family: var(--font-heading);
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    white-space: nowrap;
+}
+
+.marquee-item i {
+    font-size: 1.8rem;
+    opacity: 0.8;
+}
+
+.marquee-item:hover {
+    transform: translateY(-8px) scale(1.05);
+    border-color: var(--primary);
+    box-shadow: 0 20px 45px rgba(14, 165, 233, 0.1);
+    color: var(--primary);
+}
+
+.marquee-item:hover i {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+@keyframes marquee-infinite {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+/* Restored Section Cards for Light Theme */
+.course-card-premium {
+    background: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    border-radius: 36px;
+    padding: 3rem 2.5rem;
+    height: 100%;
+    transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.02);
+}
+
+.course-card-premium:hover {
+    transform: translateY(-12px);
+    box-shadow: 0 40px 80px rgba(0, 0, 0, 0.06);
+    border-color: var(--primary);
+}
+
+.course-icon-wrapper {
+    width: 64px;
+    height: 64px;
+    background: rgba(14, 165, 233, 0.05);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    color: var(--primary);
+    margin-bottom: 2rem;
+}
+
+.course-premium-title {
+    font-family: var(--font-heading);
+    font-weight: 800;
+    color: var(--text-primary);
+    margin-bottom: 1.25rem;
+}
+
+.course-premium-desc {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.7;
+}
+
+/* Stats Light */
+.stats-card-premium {
+    background: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.04);
+    border-radius: 32px;
+    padding: 2.5rem;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.01);
+    transition: all 0.4s ease;
+}
+
+.stats-card-premium:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.05);
+}
+
+.stats-number {
+    font-family: var(--font-heading);
+    font-size: 3rem;
+    font-weight: 900;
+    margin-bottom: 0.5rem;
+}
+
+/* Glow Helpers for Light Theme */
+.primary-glow-text {
+    color: var(--primary);
+    filter: drop-shadow(0 0 10px rgba(14, 165, 233, 0.2));
+}
+
+.success-glow-text {
+    color: #10b981;
+    filter: drop-shadow(0 0 10px rgba(16, 185, 129, 0.2));
+}
+
+.secondary-glow-text {
+    color: var(--secondary);
+    filter: drop-shadow(0 0 10px rgba(99, 102, 241, 0.2));
+}
+
+.accent-glow-text {
+    color: #f59e0b;
+    filter: drop-shadow(0 0 10px rgba(245, 158, 11, 0.2));
+}
+
+/* Roadmap Light - Uniform Elite Borders */
+.roadmap-card {
+    background: #ffffff;
+    border: 2px solid var(--primary); /* Strong Uniform Elite Border */
+    border-radius: 36px;
+    padding: 3.5rem 2.8rem;
+    height: 100%;
+    transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+    box-shadow: 0 15px 40px rgba(14, 165, 233, 0.05); /* Soft Blue Shadow */
+    position: relative;
+    overflow: hidden;
+}
+
+.roadmap-card:hover {
+    transform: translateY(-15px) scale(1.02);
+    border-color: var(--secondary);
+    box-shadow: 0 40px 90px rgba(14, 165, 233, 0.15);
+}
+
+.roadmap-card.active {
+    background: linear-gradient(135deg, #ffffff 0%, rgba(14, 165, 233, 0.05) 100%);
+    box-shadow: 0 20px 60px rgba(14, 165, 233, 0.1);
+}
+
+.roadmap-number {
+    font-family: var(--font-heading);
+    font-size: 5rem;
+    font-weight: 900;
+    color: rgba(0, 0, 0, 0.03);
+    position: absolute;
+    top: -1rem;
+    right: 1.5rem;
+    z-index: 0;
+}
+
+.roadmap-card-title {
+    font-weight: 800;
+    color: var(--text-primary);
+    margin-bottom: 1.25rem;
+    font-size: 1.25rem;
+    position: relative;
+    z-index: 1;
+}
+
+.roadmap-card-desc {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.7;
+    position: relative;
+    z-index: 1;
+}
+
+/* Attractive CTA - Frosted Glass & Mesh Glow */
+.cta-banner-premium {
+    background: linear-gradient(135deg, #ffffff 0%, rgba(255, 255, 255, 0.6) 100%);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    border-radius: 48px;
+    padding: 6rem 3rem;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 40px 100px rgba(0, 0, 0, 0.04);
+}
+
+.cta-banner-premium::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at 30% 30%, rgba(14, 165, 233, 0.05) 0%, transparent 60%),
+                radial-gradient(circle at 70% 70%, rgba(99, 102, 241, 0.05) 0%, transparent 60%);
+    z-index: 0;
+    pointer-events: none;
+}
+
+.cta-banner-premium .premium-title-glow-deep {
+    color: var(--text-primary) !important;
+    text-shadow: none;
+    font-size: 3.25rem !important;
+    position: relative;
+    z-index: 1;
+}
+
+.cta-banner-premium .text-secondary-premium {
+    color: var(--text-secondary) !important;
+    font-size: 1.1rem;
+    position: relative;
+    z-index: 1;
+}
+
+.cta-banner-premium .btn-premium {
+    background: linear-gradient(135deg, var(--primary), var(--secondary)) !important;
+    color: white !important;
+    box-shadow: 0 15px 35px rgba(14, 165, 233, 0.2);
+}
+
+.btn-premium {
+    background: #ffffff !important;
+    color: var(--primary) !important;
+    font-weight: 700 !important;
+    border: none !important;
+    transition: all 0.3s ease;
+}
+
+.btn-premium:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    color: var(--secondary) !important;
+}
+
+/* Navbar Navigation Light */
+.btn-outline-nav {
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    color: var(--text-primary);
+    background: #ffffff;
+}
+
+.btn-outline-nav:hover {
+    background: #f8fafc;
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+/* Elite 3D Floating Hero Image */
+.hero-image-animate {
+    animation: float-3d-premium 6s ease-in-out infinite;
+    transform-style: preserve-3d;
+    position: relative;
+    z-index: 1;
+}
+
+.hero-image-animate img {
+    filter: drop-shadow(0 40px 80px rgba(14, 165, 233, 0.2));
+    border-radius: 40px;
+    transition: transform 0.5s ease;
+}
+
+@keyframes float-3d-premium {
+    0%, 100% {
+        transform: translateY(0) rotateX(2deg) rotateY(-3deg) rotateZ(1deg);
+        filter: drop-shadow(0 30px 60px rgba(0,0,0,0.1));
+    }
+    50% {
+        transform: translateY(-25px) rotateX(-2deg) rotateY(3deg) rotateZ(-1deg);
+        filter: drop-shadow(0 60px 100px rgba(0,0,0,0.15));
+    }
+}

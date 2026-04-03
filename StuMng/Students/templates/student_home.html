@@ -1,0 +1,185 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/studenthome.css' %}">
+
+<!-- HERO SECTION RESTORED & IMPROVED -->
+<div class="hero-wrapper fade-in-up">
+    <div class="hero-glow"></div>
+    <div class="container hero-content">
+        <div class="row align-items-center">
+            <div class="col-lg-6 order-2 order-lg-1 text-center text-lg-start">
+                <span class="badge premium-chip mb-4">
+                    <i class="fa-solid fa-rocket me-2"></i> Elevate Your Career
+                </span>
+                <h1 class="hero-title text-glow">Unlock Your Potential with Career Up.</h1>
+                <p class="hero-subtitle mb-5">
+                    Master modern technologies and land your dream job with our comprehensive, industry-focused training programs.
+                </p>
+                <div class="d-flex flex-wrap justify-content-center justify-content-lg-start gap-4">
+                    <a href="{% url 'course_list' %}" class="btn btn-premium px-5 py-3 rounded-pill shadow-strong">Explore Courses</a>
+                    <a href="{% url 'personal_info' %}" class="btn btn-outline-nav px-5 py-3 rounded-pill">View Profile</a>
+                </div>
+            </div>
+            <div class="col-lg-6 order-1 order-lg-2 text-center mb-5 mb-lg-0">
+                <div class="hero-image-animate">
+                   <img src="{% static 'images/source.png' %}" class="img-fluid" style="max-height: 450px; filter: drop-shadow(0 20px 40px rgba(0, 224, 255, 0.4));" alt="Hero Image">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="premium-hr"></div>
+
+<!-- SIGNATURE PROGRAMS RESTORED -->
+<div class="container mb-5 pb-5">
+    <div class="row mb-5 fade-in-up text-center">
+        <div class="col-lg-12">
+            <h2 class="premium-title-glow" style="font-size: 2.8rem;">Our Signature Programs</h2>
+            <p class="text-secondary-premium mx-auto" style="max-width: 600px;">Choose from our curated selection of high-demand tech stacks designed to turn you into a professional developer.</p>
+        </div>
+    </div>
+
+    <div class="row g-4 fade-in-up">
+        <!-- Python -->
+        <div class="col-md-6 col-lg-3">
+            <div class="course-card-premium">
+                <div class="course-icon-wrapper"><i class="fa-brands fa-python"></i></div>
+                <h3 class="course-premium-title">Python Core</h3>
+                <p class="course-premium-desc">Comprehensive Python training from basics to advanced data structures and AI fundamentals.</p>
+                <div class="mt-4 pt-4 border-top border-white border-opacity-5">
+                    <span style="color: var(--primary); font-weight: 600; font-size: 0.9rem;">Learn More <i class="fa-solid fa-arrow-right-long ms-1"></i></span>
+                </div>
+            </div>
+        </div>
+        <!-- Django -->
+        <div class="col-md-6 col-lg-3">
+            <div class="course-card-premium">
+                <div class="course-icon-wrapper"><i class="fa-solid fa-code"></i></div>
+                <h3 class="course-premium-title">Advanced Django</h3>
+                <p class="course-premium-desc">Build production-grade web applications using the world's most popular backend framework.</p>
+                <div class="mt-4 pt-4 border-top border-white border-opacity-5">
+                    <span style="color: var(--primary); font-weight: 600; font-size: 0.9rem;">Learn More <i class="fa-solid fa-arrow-right-long ms-1"></i></span>
+                </div>
+            </div>
+        </div>
+        <!-- Java -->
+        <div class="col-md-6 col-lg-3">
+            <div class="course-card-premium">
+                <div class="course-icon-wrapper"><i class="fa-brands fa-java"></i></div>
+                <h3 class="course-premium-title">Java Masterclass</h3>
+                <p class="course-premium-desc">Deep dive into enterprise development, Spring Boot, and scalable architecture solutions.</p>
+                <div class="mt-4 pt-4 border-top border-white border-opacity-5">
+                    <span style="color: var(--primary); font-weight: 600; font-size: 0.9rem;">Learn More <i class="fa-solid fa-arrow-right-long ms-1"></i></span>
+                </div>
+            </div>
+        </div>
+        <!-- Fullstack -->
+        <div class="col-md-6 col-lg-3">
+            <div class="course-card-premium">
+                <div class="course-icon-wrapper"><i class="fa-solid fa-layer-group"></i></div>
+                <h3 class="course-premium-title">Full Stack Web</h3>
+                <p class="course-premium-desc">The complete path from frontend React to backend Django, preparing you for senior roles.</p>
+                <div class="mt-4 pt-4 border-top border-white border-opacity-5">
+                    <span style="color: var(--primary); font-weight: 600; font-size: 0.9rem;">Learn More <i class="fa-solid fa-arrow-right-long ms-1"></i></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="premium-hr"></div>
+
+<!-- STATISTICS SECTION RESTORED -->
+<div class="container mb-5 pb-5">
+    <div class="row g-4 text-center fade-in-up">
+        <div class="col-md-3">
+            <div class="stats-card-premium">
+                <h2 class="stats-number primary-glow-text">15k+</h2>
+                <p class="stats-label">Students Trained</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stats-card-premium">
+                <h2 class="stats-number success-glow-text">92%</h2>
+                <p class="stats-label">Placement Rate</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stats-card-premium">
+                <h2 class="stats-number secondary-glow-text">50+</h2>
+                <p class="stats-label">Hiring Partners</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stats-card-premium">
+                <h2 class="stats-number accent-glow-text">4.9</h2>
+                <p class="stats-label">Student Rating</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="premium-hr"></div>
+
+<!-- ATTRACTIVE MARQUEE SECTION IMPROVED -->
+<div class="marquee-section fade-in-up">
+    <div class="section-label">Trusted by Global Innovators</div>
+    <div class="premium-marquee">
+        <div class="marquee-track">
+            <!-- Brand Set 1 -->
+            <div class="marquee-item"><i class="fa-brands fa-google" style="color: #4285F4;"></i>Google</div>
+            <div class="marquee-item"><i class="fa-brands fa-microsoft" style="color: #00A4EF;"></i>Microsoft</div>
+            <div class="marquee-item"><i class="fa-brands fa-amazon" style="color: #FF9900;"></i>Amazon</div>
+            <div class="marquee-item"><i class="fa-brands fa-nvidia" style="color: #76B900;"></i>NVIDIA</div>
+            <div class="marquee-item"><i class="fa-brands fa-apple" style="color: #555555;"></i>Apple</div>
+            <div class="marquee-item"><i class="fa-brands fa-meta" style="color: #0668E1;"></i>Meta</div>
+            <div class="marquee-item"><i class="fa-brands fa-uber" style="color: #000000;"></i>Uber</div>
+            <div class="marquee-item"><i class="fa-brands fa-spotify" style="color: #1DB954;"></i>Spotify</div>
+            <!-- Duplicate for Infinite Loop -->
+            <div class="marquee-item"><i class="fa-brands fa-google" style="color: #4285F4;"></i>Google</div>
+            <div class="marquee-item"><i class="fa-brands fa-microsoft" style="color: #00A4EF;"></i>Microsoft</div>
+            <div class="marquee-item"><i class="fa-brands fa-amazon" style="color: #FF9900;"></i>Amazon</div>
+            <div class="marquee-item"><i class="fa-brands fa-nvidia" style="color: #76B900;"></i>NVIDIA</div>
+            <div class="marquee-item"><i class="fa-brands fa-apple" style="color: #555555;"></i>Apple</div>
+            <div class="marquee-item"><i class="fa-brands fa-meta" style="color: #0668E1;"></i>Meta</div>
+            <div class="marquee-item"><i class="fa-brands fa-uber" style="color: #000000;"></i>Uber</div>
+            <div class="marquee-item"><i class="fa-brands fa-spotify" style="color: #1DB954;"></i>Spotify</div>
+        </div>
+    </div>
+</div>
+
+<div class="premium-hr"></div>
+
+<!-- JOURNEY SECTION RESTORED -->
+<div class="container mb-5 pb-5">
+    <div class="text-center mb-5 fade-in-up">
+        <h2 class="premium-title-glow">Your Roadmap to Excellence</h2>
+        <p class="text-secondary-premium">A comprehensive, structured path from the classroom to your dream company.</p>
+    </div>
+    <div class="row g-4 fade-in-up">
+        <div class="col-md-3"><div class="roadmap-card"><div class="roadmap-number">01</div><h4 class="roadmap-card-title">Enroll</h4><p class="roadmap-card-desc">Choose your professional path.</p></div></div>
+        <div class="col-md-3"><div class="roadmap-card"><div class="roadmap-number">02</div><h4 class="roadmap-card-title">Master</h4><p class="roadmap-card-desc">Learn from global veterans.</p></div></div>
+        <div class="col-md-3"><div class="roadmap-card"><div class="roadmap-number">03</div><h4 class="roadmap-card-title">Validate</h4><p class="roadmap-card-desc">Build real-world systems.</p></div></div>
+        <div class="col-md-3"><div class="roadmap-card active"><div class="roadmap-number">04</div><h4 class="roadmap-card-title">Placed</h4><p class="roadmap-card-desc">Secure your future elite firms.</p></div></div>
+    </div>
+</div>
+
+<div class="premium-hr"></div>
+
+<!-- CTA SECTION RESTORED & ADVISOR LOGIC -->
+<div class="container mb-5 pb-5">
+    <div class="p-5 rounded-5 text-center cta-banner-premium fade-in-up">
+        <h2 class="premium-title-glow-deep mb-4" style="font-size: 3rem; font-weight: 900;">Start Your Professional Journey</h2>
+        <p class="text-secondary-premium mb-5 mx-auto" style="max-width: 700px; font-size: 1.2rem;">Secure your future with the most comprehensive and practical tech education platform. Join our next cohort today.</p>
+        <div class="d-flex flex-column flex-md-row justify-content-center gap-4">
+            <a href="{% url 'course_list' %}" class="btn btn-premium px-5 py-3 rounded-pill shadow-strong" style="font-size: 1.1rem; background: linear-gradient(to right, #00e0ff, #7c3aed) !important; color: white !important;">Get Started Now <i class="fa-solid fa-arrow-right-long ms-2"></i></a>
+            <button class="btn btn-outline-nav px-5 py-3 rounded-pill" data-bs-toggle="modal" data-bs-target="#advisorModal">Talk to an Advisor</button>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

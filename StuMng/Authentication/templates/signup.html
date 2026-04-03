@@ -1,0 +1,253 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register | Career Up</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/signup.css' %}?v=5.0">
+</head>
+
+<body class="premium-theme">
+    <!-- High-Performance Particle Background -->
+    <canvas id="bg-particles"></canvas>
+
+    <!-- Premium Ambient Accents -->
+    <div class="bg-blob blob-primary" style="top: -200px; left: -200px;"></div>
+    <div class="bg-blob blob-secondary" style="bottom: -200px; right: -200px;"></div>
+
+    <div class="signup-card">
+        <div class="brand-section" style="text-align: center;">
+            <h1 class="brand-title">Join Career Up</h1>
+            <p class="brand-tagline">Start your journey to professional excellence today.</p>
+        </div>
+
+        <form method="POST" enctype="multipart/form-data" id="signupForm">
+            {% csrf_token %}
+
+            {% if error %}
+                <div class="error-msg" style="color: #ef4444; background: #fef2f2; padding: 1rem; border-radius: 14px; font-size: 0.9rem; font-weight: 600; margin-bottom: 2rem; text-align: center; border: 1px solid rgba(239, 68, 68, 0.1);">
+                    <i class="fa-solid fa-circle-exclamation me-2"></i> {{ error }}
+                </div>
+            {% endif %}
+
+            <div class="form-grid">
+                <!-- Login Details -->
+                <div class="section-head"><i class="fa-solid fa-shield-halved"></i> Login Credentials</div>
+                
+                <div class="form-group">
+                    <label class="form-label">Username</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-at input-icon"></i>
+                        <input type="text" name="username" class="form-control" placeholder="johndoe" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Security Key</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-lock input-icon"></i>
+                        <input type="password" name="password" class="form-control" placeholder="••••••••" required>
+                    </div>
+                </div>
+
+                <!-- Personal Details -->
+                <div class="section-head"><i class="fa-solid fa-user-tie"></i> Personal Information</div>
+                
+                <div class="form-group">
+                    <label class="form-label">First Name</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-id-card input-icon"></i>
+                        <input type="text" name="first_name" class="form-control" placeholder="John">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Last Name</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-signature input-icon"></i>
+                        <input type="text" name="last_name" class="form-control" placeholder="Doe">
+                    </div>
+                </div>
+
+                <div class="form-group full-width">
+                    <label class="form-label">Email Address</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-envelope input-icon"></i>
+                        <input type="email" name="email" class="form-control" placeholder="john@example.com">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Mobile</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-phone input-icon"></i>
+                        <input type="text" name="mobile" class="form-control" placeholder="+91 XXXX XXX XXX">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Age</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-calendar-day input-icon"></i>
+                        <input type="number" name="age" class="form-control" placeholder="21">
+                    </div>
+                </div>
+
+                <div class="form-group full-width">
+                    <label class="form-label">Address</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-map-location-dot input-icon" style="top: 1.5rem;"></i>
+                        <textarea name="address" class="form-control" rows="2" placeholder="Enter your full address" style="padding-left: 3.25rem;"></textarea>
+                    </div>
+                </div>
+
+                <!-- Course Details -->
+                <div class="section-head"><i class="fa-solid fa-graduation-cap"></i> Program Selection</div>
+                
+                <div class="form-group full-width">
+                    <label class="form-label">Choose Specialized Path</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-book-open input-icon"></i>
+                        <select name="course" class="form-control">
+                            {% for course in courses %}
+                                <option value="{{ course.id }}">{{ course.course_name }} - ₹{{ course.course_fee }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Initial Deposit (₹)</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-wallet input-icon"></i>
+                        <input type="number" name="Paid_Fees" class="form-control" placeholder="5000">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Enrollment Date</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-calendar-check input-icon"></i>
+                        <input type="date" name="enrollment_date" class="form-control">
+                    </div>
+                </div>
+
+                <!-- Uploads -->
+                <div class="section-head"><i class="fa-solid fa-file-arrow-up"></i> Documents</div>
+                
+                <div class="form-group">
+                    <label class="form-label">Profile Photo</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-image input-icon"></i>
+                        <input type="file" name="profile_picture" class="form-control" style="padding-top: 0.8rem;">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Resume / CV</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-file-pdf input-icon"></i>
+                        <input type="file" name="resume" class="form-control" style="padding-top: 0.8rem;">
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-signup">Complete Enrollment <i class="fa-solid fa-user-plus ms-2"></i></button>
+            </div>
+        </form>
+
+        <div class="login-link">
+            Already have an account?
+            <a href="{% url 'LoginPage' %}">Sign in here</a>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            gsap.from(".signup-card", { 
+                y: 60, 
+                opacity: 0, 
+                duration: 1.2, 
+                ease: "expo.out",
+                delay: 0.2
+            });
+            
+            gsap.from(".form-group, .section-head", {
+                x: -30,
+                opacity: 0,
+                stagger: 0.05,
+                duration: 0.8,
+                ease: "power2.out",
+                delay: 0.5
+            });
+
+            // Particle System Script
+            const canvas = document.getElementById('bg-particles');
+            const ctx = canvas.getContext('2d');
+            let particles = [];
+
+            function resize() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+
+            window.addEventListener('resize', resize);
+            resize();
+
+            class Particle {
+                constructor() {
+                    this.reset();
+                }
+
+                reset() {
+                    this.x = Math.random() * canvas.width;
+                    this.y = Math.random() * canvas.height;
+                    this.vx = (Math.random() - 0.5) * 0.5;
+                    this.vy = (Math.random() - 0.5) * 0.5;
+                    this.size = Math.random() * 2;
+                    this.alpha = Math.random() * 0.3;
+                }
+
+                update() {
+                    this.x += this.vx;
+                    this.y += this.vy;
+
+                    if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) {
+                        this.reset();
+                    }
+                }
+
+                draw() {
+                    ctx.fillStyle = `rgba(56, 189, 248, ${this.alpha})`;
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+
+            for (let i = 0; i < 200; i++) {
+                particles.push(new Particle());
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                particles.forEach(p => {
+                    p.update();
+                    p.draw();
+                });
+                requestAnimationFrame(animate);
+            }
+
+            animate();
+        });
+    </script>
+</body>
+</html>
