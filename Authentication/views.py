@@ -78,31 +78,36 @@ def signup_view(request):
                     user.Country = request.POST.get('country')
                     user.save()                                
                 # STUDENT TABLE
-                    selected_course = Course_Details.objects.get(id=request.POST['course'])
-                    print(request.POST['course'], type(request.POST['course']))
+                    course_val = request.POST.get('course')
+                    if course_val:
+                        selected_course = Course_Details.objects.get(id=course_val)
+                    else:
+                        selected_course = Course_Details.objects.first()
+                    print(course_val, type(course_val))
                     print(selected_course.id,type(selected_course.id))
                     Student_Details.objects.create(
                         user=user,
-                        first_name=request.POST['first_name'],
-                        last_name=request.POST['last_name'],
-                        email=request.POST['email'],
-                        enrollment_date=request.POST['enrollment_date'],
+                        first_name=request.POST.get('first_name', ''),
+                        last_name=request.POST.get('last_name', ''),
+                        email=request.POST.get('email', ''),
+                        enrollment_date=request.POST.get('enrollment_date') or timezone.now().date(),
                         course_id=selected_course.id,
                         course_fee=selected_course.course_fee,
-                        paid_amount=request.POST['Paid_Fees'],
-                        remaining_amount=selected_course.course_fee -Decimal(request.POST.get('Paid_Fees', '0')),
+                        paid_amount=request.POST.get('Paid_Fees', 0) or 0,
+                        remaining_amount=selected_course.course_fee - Decimal(request.POST.get('Paid_Fees', 0) or 0),
                         profile_picture=request.FILES.get('profile_picture'),
-                        resume=request.FILES.get('resume')              
+                        resume=request.FILES.get('resume')  
+
                     )
 
         # LOGIN ONLY AFTER SUCCESS
             return redirect('/')
 
         except Exception as e:
-            print("Error occurred during signup.", e )
+            print("Error occurred during signup.", str(e))
             
             return render(request, 'signup.html', {
-                'error': 'Something went wrong. Please try again.',
+                'error': f'Something went wrong. Please try again. Error details: {str(e)}',
                 'courses': courses
             })
 
