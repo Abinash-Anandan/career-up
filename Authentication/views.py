@@ -57,38 +57,53 @@ def social_login_redirect(request, provider):
 
 def signup_view(request):
     try:
-        courses = Course_Details.objects.all()
+        courses = list(Course_Details.objects.all())
     except Exception as e:
-        return render(request, 'signup.html', {
-            'error': f'Database connection failed: {str(e)}',
-            'courses': []
-        })
+        courses = []
 
     if request.method == "POST":
+        username = request.POST.get('username', '').strip()
+        password = request.POST.get('password', '')
+
+        # Check duplicate
         try:
-            if User_Details.objects.filter(username=request.POST.get('username', '')).exists():
-                return render(request, 'signup.html', {'error': 'Username already exists.', 'courses': courses})
+            if User_Details.objects.filter(username=username).exists():
+                return render(request, 'signup.html', {
+                    'error': 'Username already exists. Please choose another.',
+                    'courses': courses
+                })
+        except Exception as e:
+            return render(request, 'signup.html', {
+                'error': f'Database error: {str(e)}',
+                'courses': courses
+            })
+
+        try:
+            paid = Decimal(str(request.POST.get('Paid_Fees', 0) or 0))
+            course_val = request.POST.get('course')
 
             with transaction.atomic():
+                # Create user account
                 user = User_Details.objects.create_user(
-                    username=request.POST.get('username', ''),
-                    password=request.POST.get('password', '')
+                    username=username,
+                    password=password
                 )
-                user.Mobiele_Number = request.POST.get('mobile')
+                user.Mobiele_Number = request.POST.get('mobile', '')
                 user.Age = request.POST.get('age') or None
-                user.Address = request.POST.get('address')
-                user.State = request.POST.get('state')
-                user.Country = request.POST.get('country')
+                user.Address = request.POST.get('address', '')
+                user.State = request.POST.get('state', '')
+                user.Country = request.POST.get('country', '')
                 user.save()
 
-                course_val = request.POST.get('course')
+                # Get selected course
                 if course_val:
                     selected_course = Course_Details.objects.get(id=course_val)
                 else:
                     selected_course = Course_Details.objects.first()
 
-                # Step 1: Create student WITHOUT files first (guaranteed to work)
-                student = Student_Details.objects.create(
+                # Create student record — NO file uploads (Vercel filesystem is unreliable)
+                # Profile picture / resume can be added from the profile edit page
+                Student_Details.objects.create(
                     user=user,
                     first_name=request.POST.get('first_name', ''),
                     last_name=request.POST.get('last_name', ''),
@@ -96,36 +111,21 @@ def signup_view(request):
                     enrollment_date=request.POST.get('enrollment_date') or timezone.now().date(),
                     course_id=selected_course.id,
                     course_fee=selected_course.course_fee,
-                    paid_amount=request.POST.get('Paid_Fees', 0) or 0,
-                    remaining_amount=selected_course.course_fee - Decimal(str(request.POST.get('Paid_Fees', 0) or 0)),
+                    paid_amount=paid,
+                    remaining_amount=selected_course.course_fee - paid,
+                    profile_picture=None,
+                    resume=None,
                 )
-
-            # Step 2: Try to attach files OUTSIDE the atomic block
-            # If this fails, user is already saved — no crash
-            try:
-                import os
-                os.makedirs('/tmp/media', exist_ok=True)
-                profile_pic = request.FILES.get('profile_picture')
-                resume_file = request.FILES.get('resume')
-                if profile_pic or resume_file:
-                    if profile_pic:
-                        student.profile_picture = profile_pic
-                    if resume_file:
-                        student.resume = resume_file
-                    student.save()
-            except Exception:
-                pass  # File upload failed silently — user is still registered
 
             return redirect('/')
 
-
         except Exception as e:
             import traceback
-            err_detail = traceback.format_exc()
-            print("Signup error:", err_detail)
+            print("SIGNUP ERROR:", traceback.format_exc())
             return render(request, 'signup.html', {
-                'error': f'Registration failed: {str(e)}',
+                'error': f'Registration failed — {str(e)}',
                 'courses': courses
             })
 
     return render(request, 'signup.html', {'courses': courses})
+
