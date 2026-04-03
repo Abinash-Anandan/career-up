@@ -2,7 +2,7 @@
   "version": 2,
   "builds": [
     {
-      "src": "StuMng/MyProject/wsgi.py",
+      "src": "MyProject/wsgi.py",
       "use": "@vercel/python",
       "config": { "maxLambdaSize": "15mb", "runtime": "python3.10" }
     }
@@ -10,7 +10,7 @@
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "StuMng/MyProject/wsgi.py"
+      "dest": "MyProject/wsgi.py"
     }
   ],
   "env": {
