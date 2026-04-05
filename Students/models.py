@@ -9,7 +9,7 @@ class Student_Details(models.Model):
     email = models.EmailField(unique=True)
     enrollment_date = models.DateField()
 
-    profile_picture = models.ImageField(upload_to='profile_pics/', null=True, blank=True)
+    profile_image = models.ImageField(upload_to='profile_pics/', null=True, blank=True)
     resume = models.FileField(upload_to='resumes/', null=True, blank=True)
 
     course = models.ForeignKey(Course_Details, on_delete=models.SET_NULL, null=True)   

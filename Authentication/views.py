@@ -176,13 +176,26 @@ def signup_view(request):
 
             # 4. File uploads (OUTSIDE transaction)
             # Combine saves to reduce round-trips to Cloudinary/Vercel latency
-            profile_pic = request.FILES.get('profile_picture')
+            profile_image = request.FILES.get('profile_image')
             resume_file = request.FILES.get('resume')
 
-            if profile_pic or resume_file:
+            # Validate file types and size
+            if profile_image:
+                if profile_image.size > 5 * 1024 * 1024:
+                    return render(request, 'signup.html', {'error': 'Profile image must be less than 5MB.', 'courses': courses})
+                if not profile_image.content_type.startswith('image/'):
+                    return render(request, 'signup.html', {'error': 'Profile image must be a valid image file.', 'courses': courses})
+            
+            if resume_file:
+                if resume_file.size > 5 * 1024 * 1024:
+                    return render(request, 'signup.html', {'error': 'Resume must be less than 5MB.', 'courses': courses})
+                if not resume_file.name.lower().endswith(('.pdf', '.doc', '.docx')):
+                    return render(request, 'signup.html', {'error': 'Resume must be a PDF or DOC/DOCX file.', 'courses': courses})
+
+            if profile_image or resume_file:
                 try:
-                    if profile_pic:
-                        student.profile_picture = profile_pic
+                    if profile_image:
+                        student.profile_image = profile_image
                     if resume_file:
                         student.resume = resume_file
                     
@@ -192,7 +205,6 @@ def signup_view(request):
                     import traceback
                     print(f"FILE UPLOAD ERROR: {traceback.format_exc()}")
                     # Registration is already done, so we don't return an error page here
-                    # But we could add a message if we wanted to.
 
             # Auto-login and go home
             login(request, user)
