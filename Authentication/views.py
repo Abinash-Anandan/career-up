@@ -175,22 +175,24 @@ def signup_view(request):
                 )
 
             # 4. File uploads (OUTSIDE transaction)
+            # Combine saves to reduce round-trips to Cloudinary/Vercel latency
             profile_pic = request.FILES.get('profile_picture')
             resume_file = request.FILES.get('resume')
 
-            if profile_pic:
+            if profile_pic or resume_file:
                 try:
-                    student.profile_picture = profile_pic
-                    student.save(update_fields=['profile_picture'])
+                    if profile_pic:
+                        student.profile_picture = profile_pic
+                    if resume_file:
+                        student.resume = resume_file
+                    
+                    # Full save to ensure storage backend (Cloudinary) triggers correctly
+                    student.save()
                 except Exception as e:
-                    print(f"Non-fatal profile pic error: {e}")
-
-            if resume_file:
-                try:
-                    student.resume = resume_file
-                    student.save(update_fields=['resume'])
-                except Exception as e:
-                    print(f"Non-fatal resume error: {e}")
+                    import traceback
+                    print(f"FILE UPLOAD ERROR: {traceback.format_exc()}")
+                    # Registration is already done, so we don't return an error page here
+                    # But we could add a message if we wanted to.
 
             # Auto-login and go home
             login(request, user)
