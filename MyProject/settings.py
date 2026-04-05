@@ -127,14 +127,8 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [ os.path.join(BASE_DIR, 'static') ]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STORAGES = {
-    "default": {
-        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
-    },
-    "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
-    },
-}
+
+
 
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': 'dwu53qukh',
@@ -147,8 +141,26 @@ MEDIA_URL = '/media/'
 # On Vercel, use /tmp which is the only writable directory
 if os.environ.get('VERCEL') == '1' or not os.access(BASE_DIR, os.W_OK):
     MEDIA_ROOT = '/tmp/media'
+    # Use Cloudinary storage only in production
+    STORAGES = {
+        "default": {
+            "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
+        },
+        "staticfiles": {
+            "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
+        },
+    }
 else:
     MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+    # Use local file storage for development (avoids Cloudinary timeouts)
+    STORAGES = {
+        "default": {
+            "BACKEND": "django.core.files.storage.FileSystemStorage",
+        },
+        "staticfiles": {
+            "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
+        },
+    }
 
 # Ensure the media directory exists
 try:

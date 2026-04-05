@@ -101,8 +101,9 @@ def signup_view(request):
                 else:
                     selected_course = Course_Details.objects.first()
 
-                # Create student record with Cloudinary cloud storage
-                Student_Details.objects.create(
+                # Create student record WITHOUT files first
+                # This ensures registration succeeds even if Cloudinary is slow/unavailable
+                student = Student_Details.objects.create(
                     user=user,
                     first_name=request.POST.get('first_name', ''),
                     last_name=request.POST.get('last_name', ''),
@@ -112,11 +113,33 @@ def signup_view(request):
                     course_fee=selected_course.course_fee,
                     paid_amount=paid,
                     remaining_amount=selected_course.course_fee - paid,
-                    profile_picture=request.FILES.get('profile_picture'),
-                    resume=request.FILES.get('resume'),
                 )
 
-            return redirect('/')
+            # ── File uploads happen OUTSIDE the transaction ───────────────────
+            # If Cloudinary upload fails, registration is already committed.
+            profile_pic = request.FILES.get('profile_picture')
+            resume_file = request.FILES.get('resume')
+
+            if profile_pic:
+                try:
+                    student.profile_picture = profile_pic
+                    student.save(update_fields=['profile_picture'])
+                except Exception:
+                    import traceback
+                    print("Profile picture upload failed (non-fatal):", traceback.format_exc())
+
+            if resume_file:
+                try:
+                    student.resume = resume_file
+                    student.save(update_fields=['resume'])
+                except Exception:
+                    import traceback
+                    print("Resume upload failed (non-fatal):", traceback.format_exc())
+            # ─────────────────────────────────────────────────────────────────
+
+            # Auto-login user and redirect straight to dashboard
+            login(request, user)
+            return redirect('student_home')
 
         except Exception as e:
             import traceback
@@ -127,4 +150,3 @@ def signup_view(request):
             })
 
     return render(request, 'signup.html', {'courses': courses})
-
