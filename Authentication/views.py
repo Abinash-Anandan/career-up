@@ -8,6 +8,11 @@ from decimal import Decimal
 from django.db import transaction
 from django.utils import timezone
 
+import logging
+import traceback
+
+logger = logging.getLogger(__name__)
+
 def Login_page(request):
     if request.method == 'POST':
         Check_user=authenticate(request,
@@ -179,16 +184,19 @@ def signup_view(request):
             profile_image = request.FILES.get('profile_image')
             resume_file = request.FILES.get('resume')
 
+            # ENFORCE VERCEL SERVERLESS PAYLOAD LIMIT (Avoid 413 Payload Too Large)
+            MAX_UPLOAD_SIZE = 3 * 1024 * 1024  # 3MB maximum
+
             # Validate file types and size
             if profile_image:
-                if profile_image.size > 5 * 1024 * 1024:
-                    return render(request, 'signup.html', {'error': 'Profile image must be less than 5MB.', 'courses': courses})
+                if profile_image.size > MAX_UPLOAD_SIZE:
+                    return render(request, 'signup.html', {'error': 'Profile image exceeds 3MB limit.', 'courses': courses})
                 if not profile_image.content_type.startswith('image/'):
                     return render(request, 'signup.html', {'error': 'Profile image must be a valid image file.', 'courses': courses})
             
             if resume_file:
-                if resume_file.size > 5 * 1024 * 1024:
-                    return render(request, 'signup.html', {'error': 'Resume must be less than 5MB.', 'courses': courses})
+                if resume_file.size > MAX_UPLOAD_SIZE:
+                    return render(request, 'signup.html', {'error': 'Resume file exceeds 3MB limit.', 'courses': courses})
                 if not resume_file.name.lower().endswith(('.pdf', '.doc', '.docx')):
                     return render(request, 'signup.html', {'error': 'Resume must be a PDF or DOC/DOCX file.', 'courses': courses})
 
@@ -201,9 +209,10 @@ def signup_view(request):
                     
                     # Full save to ensure storage backend (Cloudinary) triggers correctly
                     student.save()
+                    logger.info(f"Files uploaded successfully for user {username}")
                 except Exception as e:
-                    import traceback
-                    print(f"FILE UPLOAD ERROR: {traceback.format_exc()}")
+                    logger.error(f"FILE UPLOAD FAILED for {username}: {str(e)}")
+                    logger.error(traceback.format_exc())
                     # Registration is already done, so we don't return an error page here
 
             # Auto-login and go home
@@ -213,8 +222,8 @@ def signup_view(request):
         except IntegrityError as e:
             return render(request, 'signup.html', {'error': f'Database conflict: {str(e)}', 'courses': courses})
         except Exception as e:
-            import traceback
-            print("SIGNUP ERROR:", traceback.format_exc())
+            logger.error(f"Registration crash: {str(e)}")
+            logger.error(traceback.format_exc())
             return render(request, 'signup.html', {'error': f'Registration failed: {str(e)}', 'courses': courses})
 
     return render(request, 'signup.html', {'courses': courses})

@@ -137,6 +137,13 @@ CLOUDINARY_STORAGE = {
 }
 
 
+# [CRITICAL PRODUCTION FIX]: Serverless File Handling
+# Force Vercel/Production to keep uploaded files entirely in memory instead of crashing on read-only disk.
+FILE_UPLOAD_MAX_MEMORY_SIZE = 10485760  # 10 MB
+FILE_UPLOAD_HANDLERS = [
+    'django.core.files.uploadhandler.MemoryFileUploadHandler',
+]
+
 MEDIA_URL = '/media/'
 # On Vercel, use /tmp which is the only writable directory
 if os.environ.get('VERCEL') == '1' or not os.access(BASE_DIR, os.W_OK):
@@ -173,9 +180,21 @@ except Exception:
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'Authentication.User_Details'
-                  # appname.ModelName
 
 SESSION_COOKIE_AGE = 60*60*24
-
 SESSION_EXPIRY_AT_BROWSER_CLOSE = True
 
+# Logging config to ensure errors show up in Vercel Runtime Logs
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'INFO',
+    },
+}
