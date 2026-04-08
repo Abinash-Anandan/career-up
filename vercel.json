@@ -1,5 +1,10 @@
 {
   "version": 2,
+  "functions": {
+    "MyProject/wsgi.py": {
+      "maxDuration": 60
+    }
+  },
   "builds": [
     {
       "src": "MyProject/wsgi.py",

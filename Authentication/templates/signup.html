@@ -247,6 +247,51 @@
             }
 
             animate();
+
+            // --- PAYLOAD SIZE VALIDATION ---
+            const signupForm = document.getElementById('signupForm');
+            signupForm.addEventListener('submit', (e) => {
+                const profileImg = signupForm.querySelector('input[name="profile_image"]').files[0];
+                const resumeFile = signupForm.querySelector('input[name="resume"]').files[0];
+                
+                const MAX_FILE_SIZE = 2.5 * 1024 * 1024; // 2.5MB per file
+                const MAX_TOTAL_SIZE = 4.2 * 1024 * 1024; // 4.2MB total (Vercel limit is 4.5MB)
+
+                let totalSize = 0;
+                let error = "";
+
+                if (profileImg) {
+                    if (profileImg.size > MAX_FILE_SIZE) {
+                        error = "Profile photo must be less than 2.5MB.";
+                    }
+                    totalSize += profileImg.size;
+                }
+
+                if (resumeFile) {
+                    if (resumeFile.size > MAX_FILE_SIZE) {
+                        error = error || "Resume must be less than 2.5MB.";
+                    }
+                    totalSize += resumeFile.size;
+                }
+
+                if (!error && totalSize > MAX_TOTAL_SIZE) {
+                    error = "Total file size is too large for the platform. Please use smaller files (Total < 4MB).";
+                }
+
+                if (error) {
+                    e.preventDefault();
+                    // Show error message dynamically
+                    let errorDiv = document.querySelector('.error-msg');
+                    if (!errorDiv) {
+                        errorDiv = document.createElement('div');
+                        errorDiv.className = 'error-msg';
+                        errorDiv.style.cssText = "color: #ef4444; background: #fef2f2; padding: 1rem; border-radius: 14px; font-size: 0.9rem; font-weight: 600; margin-bottom: 2rem; text-align: center; border: 1px solid rgba(239, 68, 68, 0.1);";
+                        signupForm.insertBefore(errorDiv, signupForm.firstChild);
+                    }
+                    errorDiv.innerHTML = `<i class="fa-solid fa-circle-exclamation me-2"></i> ${error}`;
+                    errorDiv.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
         });
     </script>
 </body>
