@@ -287,28 +287,33 @@
         chatContainer.scrollTop = chatContainer.scrollHeight;
     }
 
-    function handleBotResponse(text, forceKey = null) {
+    function handleBotResponse(text) {
         typingIndicator.style.display = 'block';
         chatContainer.scrollTop = chatContainer.scrollHeight;
         
-        setTimeout(() => {
+        fetch('/students/ai-chat/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token }}' // Ensure we send CSRF token if needed, though view is csrf_exempt
+            },
+            body: JSON.stringify({ message: text })
+        })
+        .then(response => response.json())
+        .then(data => {
             typingIndicator.style.display = 'none';
-            let response = responses.default;
-            
-            if(forceKey && responses[forceKey]) {
-                response = responses[forceKey];
+            if(data.status === 'success') {
+                appendMessage(data.message);
             } else {
-                const query = text.toLowerCase();
-                if(query.includes('hi') || query.includes('hello') || query.includes('hey')) response = responses.greet;
-                else if(query.includes('thanks') || query.includes('thank')) response = responses.thanks;
-                else if(query.includes('fee') || query.includes('price')) response = responses.fee;
-                else if(query.includes('enroll') || query.includes('join')) response = responses.enroll;
-                else if(query.includes('mentor') || query.includes('help')) response = responses.mentor;
-                else if(query.includes('call') || query.includes('phone') || query.includes('contact')) response = responses.call;
+                appendMessage("Sorry, I encountered an error. Please try again later.");
+                console.error("AI Error:", data.message);
             }
-
-            appendMessage(response);
-        }, 1200);
+        })
+        .catch(error => {
+            typingIndicator.style.display = 'none';
+            appendMessage("Sorry, there was a connection error. Please try again.");
+            console.error('Error:', error);
+        });
     }
 
     sendBtn.addEventListener('click', () => {
@@ -326,8 +331,9 @@
 
     document.querySelectorAll('.quick-chip').forEach(chip => {
         chip.addEventListener('click', () => {
-            appendMessage(chip.innerText, true);
-            handleBotResponse('', chip.getAttribute('data-answer'));
+            const text = chip.innerText;
+            appendMessage(text, true);
+            handleBotResponse(text);
         });
     });
 

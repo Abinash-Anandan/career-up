@@ -8,4 +8,5 @@ urlpatterns = [
     path('courses/', course_list, name='course_list'),
     path('logout/', logout_view, name='logout'),
     path('submit-enrollment/', submit_enrollment, name='submit_enrollment'),
+    path('ai-chat/', ai_chat, name='ai_chat'),
 ]
