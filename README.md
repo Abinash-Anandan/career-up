@@ -21,8 +21,8 @@
 - **Fast-Track Enrollment**: Integrated request forms with direct advisor triggers (WhatsApp/Phone).
 - **Automated Calculations**: Real-time balance updates for student accounts.
 
-### 🤖 CORTEX AI Assistance
-- **Intelligent Support Hub**: Integrated AI chatbot (CORTEX) for instant student queries.
+### 🤖 Abi agent Assistance
+- **Intelligent Support Hub**: Integrated AI chatbot (Abi agent) for instant student queries.
 - **Quick-Chips Navigation**: rapid access to fee info, mentorship, and enrollment routes.
 
 ### 🎨 Premium "Elite" UI/UX

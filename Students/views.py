@@ -71,7 +71,7 @@ def ai_chat(request):
               api_key = "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"
             )
 
-            system_prompt = """You are CORTEX AI, the official career assistant for 'Career Up' (StuMng_Proj).
+            system_prompt = """You are Abi agent, the official career assistant for 'Career Up' (StuMng_Proj).
 Your job is to answer student queries about our platform, courses, fees, and enrollment.
 Always keep your answers concise, friendly, and professional. Use emojis where appropriate.
 
