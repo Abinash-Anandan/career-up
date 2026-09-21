@@ -279,6 +279,8 @@
         default: "Interesting question! I'm forwarding this to our expert advisors. Need help with Fees, Mentors, or Enrollment? 😊"
     };
 
+    let chatHistory = [];
+
     function appendMessage(text, isUser = false) {
         const msg = document.createElement('div');
         msg.className = isUser ? 'chat-msg chat-msg-user ms-auto text-end' : 'chat-msg';
@@ -291,18 +293,21 @@
         typingIndicator.style.display = 'block';
         chatContainer.scrollTop = chatContainer.scrollHeight;
         
+        chatHistory.push({ role: 'user', content: text });
+        
         fetch('/students/ai-chat/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'X-CSRFToken': '{{ csrf_token }}' // Ensure we send CSRF token if needed, though view is csrf_exempt
             },
-            body: JSON.stringify({ message: text })
+            body: JSON.stringify({ message: text, history: chatHistory })
         })
         .then(response => response.json())
         .then(data => {
             typingIndicator.style.display = 'none';
             if(data.status === 'success') {
+                chatHistory.push({ role: 'assistant', content: data.message });
                 appendMessage(data.message);
             } else {
                 appendMessage("Sorry, I encountered an error. Please try again later.");
