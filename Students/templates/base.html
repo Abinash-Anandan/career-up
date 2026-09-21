@@ -310,7 +310,7 @@
                 chatHistory.push({ role: 'assistant', content: data.message });
                 appendMessage(data.message);
             } else {
-                appendMessage("Sorry, I encountered an error. Please try again later.");
+                appendMessage("Sorry, I encountered an error: " + data.message);
                 console.error("AI Error:", data.message);
             }
         })
